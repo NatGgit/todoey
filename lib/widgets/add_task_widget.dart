@@ -13,11 +13,16 @@ class AddTaskWidget extends StatelessWidget {
     String? newTask;
 
     return Container(
+      height: (MediaQuery.of(context).size.height +
+              MediaQuery.of(context).viewInsets.bottom) /
+          2,
       padding: EdgeInsets.only(
           top: 30,
           left: 30,
           right: 30,
-          bottom: MediaQuery.of(context).viewInsets.bottom),
+          bottom: MediaQuery.of(context).viewInsets.bottom == 0
+              ? 30
+              : MediaQuery.of(context).viewInsets.bottom),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
