@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoey_flutter/bloc/task_bloc.dart';
-import 'package:todoey_flutter/models/task.dart';
 
 import '../constants.dart';
 import '../widgets/add_task_widget.dart';
@@ -22,16 +21,11 @@ class _TasksScreenState extends State<TasksScreen> {
         backgroundColor: appBlue,
         onPressed: () {
           showModalBottomSheet(
-              backgroundColor: Colors.black54.withOpacity(0.0),
-              context: context,
-              isScrollControlled: true,
-              builder: ((context) => AddTaskWidget(
-                    addTaskCallback: (String? newTaskName) => setState(() {
-                      context
-                          .read<TaskBloc>()
-                          .add(AddTaskEvent(task: Task(name: newTaskName!)));
-                    }),
-                  )));
+            backgroundColor: Colors.black54.withOpacity(0.0),
+            context: context,
+            isScrollControlled: true,
+            builder: ((context) => const AddTaskWidget()),
+          );
         },
         child: const Icon(
           Icons.add,
@@ -108,10 +102,15 @@ class _TasksScreenState extends State<TasksScreen> {
                                 return TaskCheckbox(
                                   taskName: task.name,
                                   isDone: task.isDone,
-                                  toggleCallback: (value) {
+                                  toggleCallback: (_) {
                                     setState(() {
                                       task.toggleDone();
                                     });
+                                  },
+                                  deleteCallback: () {
+                                    context
+                                        .read<TaskBloc>()
+                                        .add(DeleteTaskEvent(task: task));
                                   },
                                 );
                               }),

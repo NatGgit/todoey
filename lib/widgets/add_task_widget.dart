@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoey_flutter/bloc/task_bloc.dart';
 import 'package:todoey_flutter/constants.dart';
+import 'package:todoey_flutter/models/task.dart';
 
 class AddTaskWidget extends StatelessWidget {
-  final void Function(String) addTaskCallback;
-  const AddTaskWidget({
-    Key? key,
-    required this.addTaskCallback,
-  }) : super(key: key);
+  const AddTaskWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,14 @@ class AddTaskWidget extends StatelessWidget {
               color: appBlue,
               child: TextButton(
                 onPressed: () {
-                  addTaskCallback(newTask!);
+                  context.read<TaskBloc>().add(
+                        AddTaskEvent(
+                          task: Task(
+                            name: newTask!,
+                            id: DateTime.now().millisecondsSinceEpoch,
+                          ),
+                        ),
+                      );
                   Navigator.pop(context);
                 },
                 child: const Text(

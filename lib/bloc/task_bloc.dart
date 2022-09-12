@@ -11,11 +11,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<AddTaskEvent>((event, emit) {
       final tasks = List<Task>.from(state.tasks);
       tasks.add(event.task);
+
       emit(TaskState(tasks: tasks));
     });
     on<DeleteTaskEvent>((event, emit) {
-      final tasks = state.tasks;
+      final tasks = List<Task>.from(state.tasks);
       tasks.remove(event.task);
+
       emit(TaskState(tasks: tasks));
     });
   }
